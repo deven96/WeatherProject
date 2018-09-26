@@ -23,16 +23,16 @@ randomCoords = () => {
 //mount sequence
 componentDidMount() {
   //get true coordinates
-  // this.watchID = navigator.geolocation.getCurrentPosition(
-  //   (position) => {
-  //     console.log(position.coords);
-  //     this.fetchWeather(position.coords.latitude, position.coords.longitude);
-  //   },
-  //   (error) => this.setState({ error: error.message }),
-  // );
+  this.watchID = navigator.geolocation.getCurrentPosition(
+    (position) => {
+      console.log(position.coords);
+      this.fetchWeather(position.coords.latitude, position.coords.longitude);
+    },
+    (error) => this.setState({ error: error.message }),
+  );
   //get random coordinates
-  coords = this.randomCoords()
-  this.fetchWeather(coords.latitude, coords.longitude)
+  // coords = this.randomCoords()
+  // this.fetchWeather(coords.latitude, coords.longitude)
 }
 
 fetchWeather = (lat , lon) => {
