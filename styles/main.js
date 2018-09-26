@@ -18,7 +18,7 @@ const Weatherstyle = StyleSheet.create({
     headerContainer: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
     },
     bodyContainer: {
         flex: 2,
