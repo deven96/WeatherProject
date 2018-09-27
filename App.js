@@ -35,17 +35,15 @@ componentDidMount() {
   // this.fetchWeather(coords.latitude, coords.longitude)
 }
 
-fetchWeather = (lat , lon) => {
-  fetch(
+fetchWeather = async (lat , lon) => {
+  const response = await fetch(
     `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}&units=metric`
   )
-    .then(response => response.json())
-    .then(json_object => {
-      this.setState({
+  const json_object  = await response.json()
+  this.setState({
         temperature: json_object.main.temp,
         weatherCondition: json_object.weather[0].main,
         isLoading: false
-      });
     });
 }
   

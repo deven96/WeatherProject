@@ -1,11 +1,14 @@
 {
   "expo": {
     "name": "WeatherProject",
-    "description": "This project is really great.",
+    "description": "This project is not that great.",
     "slug": "WeatherProject",
     "privacy": "public",
     "sdkVersion": "30.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,6 +25,10 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "android": {
+      "package": "WeatherProject.deven96.com"
+    },
+    "githubUrl": "https://github.com/deven96/WeatherProject.git"
   }
 }
