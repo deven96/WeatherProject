@@ -1,7 +1,9 @@
 import React from 'react';
-import { Text, View, Animated } from 'react-native';
-import { Appstyle } from './styles/main.js';
+import { Text, View } from 'react-native';
+import Expo from 'expo';
+
 import Weather from './components/Weather.js';
+import { Appstyle } from './styles/main.js';
 import { weathermap } from './utils/WeatherConditions.js';
 import { fetchWeatherAsync } from './utils/api.js'
 
@@ -20,13 +22,29 @@ randomCoords = () => {
   } 
 }
 
+
+getLocationPermissionAsync = async () => {
+  let {status} = await Expo.Permissions.askAsync(Expo.Permissions.LOCATION)
+
+  if (status !== 'granted'){
+    console.error("Location Error not granted");
+    return;
+  }
+}
+
 //mount sequence
 componentDidMount() {
+
+  //check if permission exists , else ask
+  this.getLocationPermissionAsync()
+
   //get true coordinates
   this.watchID = navigator.geolocation.getCurrentPosition(
     (position) => {
-      console.log(position.coords);
-      const result  = await fetchWeatherAsync(position.coords.latitude, position.coords.longitude);
+      //get the result tag from an IIFE
+      const result  = (async () =>{
+        await fetchWeatherAsync(position.coords.latitude, position.coords.longitude);
+      })()
       this.setState({result})
     },
     (error) => this.setState({ error: error.message }),
