@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text, View, Animated } from 'react-native';
 import { Appstyle } from './styles/main.js';
-import { API_KEY } from './utils/key.js'
 import Weather from './components/Weather.js';
-import { weathermap } from './utils/WeatherConditions.js'
+import { weathermap } from './utils/WeatherConditions.js';
+import { fetchWeatherAsync } from './utils/api.js'
 
 export default class App extends React.Component {
     state = {
@@ -26,7 +26,8 @@ componentDidMount() {
   this.watchID = navigator.geolocation.getCurrentPosition(
     (position) => {
       console.log(position.coords);
-      this.fetchWeather(position.coords.latitude, position.coords.longitude);
+      const result  = await fetchWeatherAsync(position.coords.latitude, position.coords.longitude);
+      this.setState({result})
     },
     (error) => this.setState({ error: error.message }),
   );
@@ -35,17 +36,7 @@ componentDidMount() {
   // this.fetchWeather(coords.latitude, coords.longitude)
 }
 
-fetchWeather = async (lat , lon) => {
-  const response = await fetch(
-    `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}&units=metric`
-  )
-  const json_object  = await response.json()
-  this.setState({
-        temperature: json_object.main.temp,
-        weatherCondition: json_object.weather[0].main,
-        isLoading: false
-    });
-}
+
   
 
   render() {
