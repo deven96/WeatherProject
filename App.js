@@ -25,33 +25,38 @@ randomCoords = () => {
 
 getLocationPermissionAsync = async () => {
   let {status} = await Expo.Permissions.askAsync(Expo.Permissions.LOCATION)
-
   if (status !== 'granted'){
     console.error("Location Error not granted");
     return;
   }
 }
 
+
 //mount sequence
-componentDidMount() {
+async componentDidMount() {
 
   //check if permission exists , else ask
-  this.getLocationPermissionAsync()
+  // this.getLocationPermissionAsync()
 
   //get true coordinates
-  this.watchID = navigator.geolocation.getCurrentPosition(
-    (position) => {
-      //get the result tag from an IIFE
-      const result  = (async () =>{
-        await fetchWeatherAsync(position.coords.latitude, position.coords.longitude);
-      })()
-      this.setState({result})
-    },
-    (error) => this.setState({ error: error.message }),
-  );
+  // navigator.geolocation.getCurrentPosition(
+  //   async (position) => {
+  //     let result  = await fetchWeatherAsync(position.coords.latitude, position.coords.longitude);
+
+  //     this.setState({
+  //       isLoading: result.isLoading,
+  //       temperature: result.temperature,
+  //       weatherCondition: result.weatherCondition})
+  //   },
+  //   (error) => this.setState({ error: error.message }),
+  // );
   //get random coordinates
-  // coords = this.randomCoords()
-  // this.fetchWeather(coords.latitude, coords.longitude)
+  coords = this.randomCoords()
+  const result = await fetchWeatherAsync(coords.latitude, coords.longitude)
+      this.setState({
+        isLoading: result.isLoading,
+        temperature: result.temperature,
+        weatherCondition: result.weatherCondition})
 }
 
 
